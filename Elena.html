@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2026</title>
+    <title>2026 - Расписание Елены</title>
     <style>
         * {
             margin: 0;
@@ -111,14 +111,21 @@
         }
 
         .calendar td.package-1 { background-color: rgba(144, 238, 144, 0.4); font-weight: 600; }
-
         .calendar td.package-elena {
             font-weight: 700;
             border: 2px solid #1e6bb8;
             background-color: white;
         }
-
         .calendar td.both-1 { background-color: rgba(144, 238, 144, 0.4); font-weight: 700; border: 2px solid #1e6bb8; }
+
+        /* New package 2 styles (Yellow/Orange theme) */
+        .calendar td.package-2 { background-color: rgba(255, 215, 0, 0.35); font-weight: 600; }
+        .calendar td.package-elena-2 {
+            font-weight: 700;
+            border: 2px solid #e67e22;
+            background-color: white;
+        }
+        .calendar td.both-2 { background-color: rgba(255, 215, 0, 0.35); font-weight: 700; border: 2px solid #e67e22; }
 
         .calendar td.other-month {
             color: #ccc;
@@ -134,7 +141,7 @@
             background-color: white;
             border-radius: 10px;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-            max-width: 800px;
+            max-width: 900px;
             margin-left: auto;
             margin-right: auto;
         }
@@ -162,6 +169,10 @@
         .package-1-color { background-color: rgba(144, 238, 144, 0.4); border: 1px solid #90EE90; }
         .package-elena-color { background-color: white; border: 2px solid #1e6bb8; }
         .both-1-color { background-color: rgba(144, 238, 144, 0.4); border: 2px solid #1e6bb8; }
+        
+        .package-2-color { background-color: rgba(255, 215, 0, 0.35); border: 1px solid #ffd700; }
+        .package-elena-2-color { background-color: white; border: 2px solid #e67e22; }
+        .both-2-color { background-color: rgba(255, 215, 0, 0.35); border: 2px solid #e67e22; }
 
         footer {
             text-align: center;
@@ -185,15 +196,18 @@
 
             <div class="legend">
                 <div class="legend-item"><div class="legend-color weekend-color"></div><span>Выходные дни</span></div>
-                <div class="legend-item"><div class="legend-color package-1-color"></div><span>Пакет 20 дней (август)</span></div>
-                <div class="legend-item"><div class="legend-border package-elena-color"></div><span>Занятие Елены</span></div>
-                <div class="legend-item"><div class="legend-border both-1-color"></div><span>Пакет + занятие</span></div>
+                <div class="legend-item"><div class="legend-color package-1-color"></div><span>Пакет 1: 20 дней (авг)</span></div>
+                <div class="legend-item"><div class="legend-border package-elena-color"></div><span>Занятия Пакет 1 (Пн, Пт)</span></div>
+                <div class="legend-item"><div class="legend-border both-1-color"></div><span>Пакет 1 + занятие</span></div>
+                <div class="legend-item"><div class="legend-color package-2-color"></div><span>Пакет 2: 20 дней (с 31.08)</span></div>
+                <div class="legend-item"><div class="legend-border package-elena-2-color"></div><span>Занятия Пакет 2 (только Пн, 4 шт)</span></div>
+                <div class="legend-item"><div class="legend-border both-2-color"></div><span>Пакет 2 + занятие</span></div>
             </div>
         </main>
 
         <footer>
             <p>Календарь создан с использованием HTML, CSS и JavaScript</p>
-            <p>© 2026 Календарь с выделенными пакетами дней</p>
+            <p>© 2026 Календарь с расширенными пакетами дней</p>
         </footer>
     </div>
 
@@ -210,18 +224,34 @@
             "2026-08-24","2026-08-25","2026-08-26","2026-08-27","2026-08-28"
         ];
 
-        // Занятия Елены (понедельник + пятница) — 8 занятий
-        const lessons = [
+        // Занятия Елены для Пакет 1 (понедельник + пятница) — 8 занятий
+        const lessons1 = [
             "2026-08-03","2026-08-07","2026-08-10","2026-08-14",
             "2026-08-17","2026-08-21","2026-08-24","2026-08-28"
+        ];
+
+        // Пакет 2: 20 будних дней, начиная с 31 августа 2026 (по 25 сентября 2026)
+        const package2 = [
+            "2026-08-31",
+            "2026-09-01","2026-09-02","2026-09-03","2026-09-04",
+            "2026-09-07","2026-09-08","2026-09-09","2026-09-10","2026-09-11",
+            "2026-09-14","2026-09-15","2026-09-16","2026-09-17","2026-09-18",
+            "2026-09-21","2026-09-22","2026-09-23","2026-09-24","2026-09-25"
+        ];
+
+        // Занятия Елены для Пакет 2 (только по понедельникам — ровно 4 штуки)
+        const lessons2 = [
+            "2026-08-31",
+            "2026-09-07",
+            "2026-09-14",
+            "2026-09-21"
         ];
 
         function getDaysInMonth(y, m) { return new Date(y, m + 1, 0).getDate(); }
         function getFirstDayOfMonth(y, m) { const d = new Date(y, m, 1).getDay(); return d === 0 ? 6 : d - 1; }
         function formatDate(y, m, d) { return `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`; }
 
-        function isInPackage(pkg, y, m, d) { return pkg.includes(formatDate(y, m, d)); }
-        function isLesson(y, m, d) { return lessons.includes(formatDate(y, m, d)); }
+        function isInList(list, y, m, d) { return list.includes(formatDate(y, m, d)); }
 
         function createMonthCalendar(y, m) {
             const daysInMonth = getDaysInMonth(y, m);
@@ -237,13 +267,21 @@
             for (let i = 0; i < totalCells; i++) {
                 if (i % 7 === 0) html += "<tr>";
                 if (i >= startOffset && day <= daysInMonth) {
-                    const in1 = isInPackage(package1, y, m, day);
-                    const inLesson = isLesson(y, m, day);
+                    const inPkg1 = isInList(package1, y, m, day);
+                    const inLess1 = isInList(lessons1, y, m, day);
+                    const inPkg2 = isInList(package2, y, m, day);
+                    const inLess2 = isInList(lessons2, y, m, day);
                     const isWeekend = (new Date(y, m, day).getDay() === 0 || new Date(y, m, day).getDay() === 6);
+                    
                     let cls = isWeekend ? "weekend" : "";
-                    if (in1 && inLesson) cls = "both-1";
-                    else if (in1) cls = "package-1";
-                    else if (inLesson) cls = "package-elena";
+                    
+                    if (inPkg1 && inLess1) cls = "both-1";
+                    else if (inPkg2 && inLess2) cls = "both-2";
+                    else if (inPkg1) cls = "package-1";
+                    else if (inPkg2) cls = "package-2";
+                    else if (inLess1) cls = "package-elena";
+                    else if (inLess2) cls = "package-elena-2";
+
                     html += `<td class="${cls}">${day}</td>`;
                     day++;
                 } else {
