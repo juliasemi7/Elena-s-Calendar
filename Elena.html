@@ -25,7 +25,6 @@
             min-height: 100vh;
         }
 
-        /* Package styling */
         .pkg-1 { background-color: #dcfce7; color: #14532d; border: 1px solid #86efac; }
         .pkg-2 { background-color: #f3e8ff; color: #581c87; border: 1px solid #d8b4fe; }
         .pkg-3 { background-color: #ffedd5; color: #7c2d12; border: 1px solid #fdba74; }
@@ -34,7 +33,6 @@
         .pkg-6 { background-color: #e0e7ff; color: #3730a3; border: 1px solid #a5b4fc; }
         .pkg-7 { background-color: #fef3c7; color: #78350f; border: 1px solid #fde68a; }
 
-        /* Lesson Indicator (Wed / Fri) */
         .has-lesson {
             outline: 2px solid #2563eb;
             outline-offset: -2px;
@@ -62,13 +60,11 @@
 <body class="py-8 px-4 sm:px-6 lg:px-8">
     <div class="max-w-7xl mx-auto space-y-6">
         
-        <!-- Header -->
         <header class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm flex flex-col items-center justify-center text-center gap-2">
             <span class="px-3.5 py-1 rounded-lg bg-indigo-600 text-white font-extrabold text-sm tracking-wide">2026</span>
             <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Календарь Елены</h1>
         </header>
 
-        <!-- Hover Info Bar -->
         <div id="info-bar" class="hidden transition-all duration-200 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-md flex items-center justify-between text-sm">
             <span id="info-date" class="font-bold text-indigo-300"></span>
             <span id="info-status" class="bg-slate-800 px-3 py-1 rounded-lg text-xs font-semibold text-slate-200"></span>
@@ -102,17 +98,21 @@
                 "2026-10-05","2026-10-06","2026-10-07","2026-10-08","2026-10-09",
                 "2026-10-12","2026-10-13","2026-10-14","2026-10-15","2026-10-16",
                 "2026-10-19","2026-10-20","2026-10-21","2026-10-22","2026-10-23"
+            ]},
+            { id: 4, name: "Ноябрьский пакет", period: "26 окт – 20 ноя (20 рабочих дней; 4 занятия по понедельникам)", colorClass: "pkg-4", days: [
+                "2026-10-26","2026-10-27","2026-10-28","2026-10-29","2026-10-30",
+                "2026-11-02","2026-11-03","2026-11-04","2026-11-05","2026-11-06",
+                "2026-11-09","2026-11-10","2026-11-11","2026-11-12","2026-11-13",
+                "2026-11-16","2026-11-17","2026-11-18","2026-11-19","2026-11-20"
             ]}
         ];
 
         const lessons = [
-          // Августовский пакет — только понедельники
           "2026-08-03","2026-08-10","2026-08-17","2026-08-24",
-          // Сентябрьский пакет — только понедельники
           "2026-08-31","2026-09-07","2026-09-14","2026-09-21",
-          // Октябрьский пакет — только понедельники
-          "2026-09-28","2026-10-05","2026-10-12","2026-10-19"
-       ];
+          "2026-09-28","2026-10-05","2026-10-12","2026-10-19",
+          "2026-10-26","2026-11-02","2026-11-09","2026-11-16"
+        ];
 
         function getDaysInMonth(y, m) { return new Date(y, m + 1, 0).getDate(); }
         function getFirstDayOfMonth(y, m) { const d = new Date(y, m, 1).getDay(); return d === 0 ? 6 : d - 1; }
